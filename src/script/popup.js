@@ -1,47 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     let button = document.getElementById("findConns")
-    button.addEventListener("click", (e) => {
+    button.addEventListener("click", () => {
         chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
             let tab = tabs[0]
             let url = new URL(tab.url)
             let domain = url.hostname
             const site = domain.substring(0, domain.length - 4)
+            console.log(`the current site:  ${site}`)
 
-            console.log(site)
+            chrome.runtime.sendMessage(
+                {
+                    site: `${site}`
+                },
+                (responseText) => {
+                    console.log(responseText)
+                }
+            )
 
-
-            let wikiSearch = 'https://en.wikipedia.org/w/api.php'
-            // https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=&srlimit=20&srsearch=SEARCH_QUERY_GOES_HERE
-
-            const params = {
-                action: "query",
-                format: "json",
-                list: "allpages",
-                apfrom: `${site}`
-            };
-
-            wikiSearch = wikiSearch + '?origin=*';
-            Object.keys(params).forEach((key) => {
-                wikiSearch += `&${key}=${params[key]}`
-            })
-
-            console.log(wikiSearch)
-
-            fetch(wikiSearch)
-                .then((response) => {return response.json()})
-                .then((response) => {
-                    const pages = response.query.allpages
-                    for (let p in pages) {
-                        console.log(pages[p].title)
-                    }
-                }).catch((error) => {
-                    console.log("There's been an error my dude")
-                    console.log(error)
-                })
 
         })
     }, false)
+
+
+    //Currently trying to figure out...
+    // let headButton = document.getElementById("extractHead")
+    // headButton.addEventListener("click", () => {
+    //     chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
+    //         let head = document.head.innerHTML
+    //         console.log(head)
+    //     })
+    // })
+
+
 }, false)
 
 

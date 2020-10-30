@@ -3,3 +3,8 @@ button[id="findConns"] {
     width: 150px;
     outline: none;
 }
+button[id="extractHead"] {
+    height: 150px;
+    width: 150px;
+    outline: none;
+}
