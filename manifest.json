@@ -15,7 +15,7 @@
     {
       "matches": ["<all_urls>"],
       "css": ["src/css/background.css"],
-      "js": ["src/script/background.js"]
+      "js": ["src/script/content.js"]
     }
   ],
   "browser_action": {
